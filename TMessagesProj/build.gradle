@@ -99,6 +99,10 @@ android {
     }
 
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 35
@@ -106,6 +110,9 @@ android {
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
         multiDexEnabled true
+
+        buildConfigField "int", "APP_ID", (getProps("APP_ID") ?: "4")
+        buildConfigField "String", "APP_HASH", "\"" + (getProps("APP_HASH") ?: "") + "\""
 
         externalNativeBuild {
             cmake {
