@@ -10854,9 +10854,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         );
     }
 
-    boolean floatingButtonHidden;
+    boolean floatingButtonHidden = true;
 
     private void hideFloatingButton(boolean hide) {
+        hide = true;
         if (rightSlidingDialogContainer.hasFragment()) {
             hide = true;
         }
@@ -13141,10 +13142,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 });
             });
             io.addGap();
-            io.add(R.drawable.outline_groups_24, getString(R.string.NewGroup), () -> {
-                Bundle args = new Bundle();
-                presentFragment(new GroupCreateActivity(args));
-            });
             io.add(R.drawable.outline_saved_24, getString(R.string.SavedMessages), () -> {
                 Bundle args = new Bundle();
                 args.putLong("user_id", UserConfig.getInstance(currentAccount).getClientUserId());

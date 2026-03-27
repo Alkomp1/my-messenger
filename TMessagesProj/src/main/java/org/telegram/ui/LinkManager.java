@@ -220,9 +220,6 @@ public class LinkManager {
                 return true;
             }
 
-            final Bundle args = new Bundle();
-            args.putBoolean("destroyAfterSelect", true);
-            presentFragment(new ContactsActivity(args));
             return true;
         }
 
@@ -239,25 +236,6 @@ public class LinkManager {
         }
 
         if ("contacts".equalsIgnoreCase(first)) {
-            if ("new".equalsIgnoreCase(second)) {
-                new NewContactBottomSheet(getLastFragment(), activity).show();
-                return true;
-            }
-
-            final Bundle args = new Bundle();
-            args.putBoolean("needPhonebook", true);
-            args.putBoolean("needFinishFragment", true);
-            presentFragment(new ContactsActivity(args));
-
-            if ("search".equalsIgnoreCase(second)) {
-                // TODO
-            }
-            if ("sort".equalsIgnoreCase(second)) {
-                // TODO
-            }
-            if ("invite".equalsIgnoreCase(second)) {
-                scrollTo("phonebookRow");
-            }
             return true;
         }
 

@@ -1068,9 +1068,22 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 }
             }
             MessagesController.getInstance(currentAccount).putUsers(encUsers, true);
+            for (int i = result.size() - 1; i >= 0; i--) {
+                Object obj = result.get(i);
+                boolean keep = false;
+                if (obj instanceof TLRPC.User) {
+                    keep = UserObject.isBot((TLRPC.User) obj);
+                } else if (obj instanceof TLRPC.Chat) {
+                    keep = ChatObject.isChannelAndNotMegaGroup((TLRPC.Chat) obj);
+                }
+                if (!keep) {
+                    result.remove(i);
+                    if (i < names.size()) names.remove(i);
+                }
+            }
             searchResult = result;
             searchResultNames = names;
-         //   searchContacts = contacts;
+            searchContacts.clear();
             searchAdapterHelper.mergeResults(searchResult, filtered2RecentSearchObjects);
             notifyDataSetChanged();
             if (delegate != null) {

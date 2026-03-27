@@ -1613,10 +1613,31 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
 
         if (!stopUpdate) {
             for (int k = 0; k < array.size(); k++) {
-                if (dialogsType == DialogsActivity.DIALOGS_TYPE_ADD_USERS_TO && array.get(k) instanceof DialogsActivity.DialogsHeader) {
-                    itemInternals.add(new ItemInternal(VIEW_TYPE_HEADER_2, array.get(k)));
+                TLRPC.Dialog dialog = array.get(k);
+                if (dialog != null && (dialogsType == DialogsActivity.DIALOGS_TYPE_DEFAULT
+                        || dialogsType == DialogsActivity.DIALOGS_TYPE_FOLDER1
+                        || dialogsType == DialogsActivity.DIALOGS_TYPE_FOLDER2)) {
+                    long dialogId = dialog.id;
+                    if (DialogObject.isUserDialog(dialogId)) {
+                        TLRPC.User user = messagesController.getUser(dialogId);
+                        if (!UserObject.isBot(user)) continue;
+                    } else if (DialogObject.isChatDialog(dialogId)) {
+                        TLRPC.Chat chat = messagesController.getChat(-dialogId);
+                        if (!ChatObject.isChannelAndNotMegaGroup(chat)) continue;
+                    }
+                }
+                if (dialogsType == DialogsActivity.DIALOGS_TYPE_ADD_USERS_TO && dialog instanceof DialogsActivity.DialogsHeader) {
+                    itemInternals.add(new ItemInternal(VIEW_TYPE_HEADER_2, dialog));
                 } else {
-                    itemInternals.add(new ItemInternal(VIEW_TYPE_DIALOG, array.get(k)));
+                    itemInternals.add(new ItemInternal(VIEW_TYPE_DIALOG, dialog));
+                }
+            }
+            if (dialogsType == DialogsActivity.DIALOGS_TYPE_DEFAULT
+                    || dialogsType == DialogsActivity.DIALOGS_TYPE_FOLDER1
+                    || dialogsType == DialogsActivity.DIALOGS_TYPE_FOLDER2) {
+                dialogsCount = 0;
+                for (int i = 0; i < itemInternals.size(); i++) {
+                    if (itemInternals.get(i).viewType == VIEW_TYPE_DIALOG) dialogsCount++;
                 }
             }
 

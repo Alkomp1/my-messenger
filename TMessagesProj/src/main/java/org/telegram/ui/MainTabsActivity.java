@@ -283,6 +283,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             tabsView.setViewVisible(view, true, false);
         }
         checkUi_callTabVisible(getUserConfig().showCallsTab, false);
+        tabsView.setViewVisible(tabs[INDEX_CONTACTS], false, false);
 
         selectTab(viewPager.getCurrentPosition(), false);
 
@@ -541,10 +542,8 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     protected BaseFragment createBaseFragmentAt(int position) {
         if (position == POSITION_CONTACTS) {
             Bundle args = new Bundle();
-            args.putBoolean("needPhonebook", true);
-            args.putBoolean("needFinishFragment", false);
             args.putBoolean("hasMainTabs", true);
-            return new ContactsActivity(args);
+            return new DialogsActivity(args);
         } else if (position == POSITION_CALLS_OR_SETTINGS) {
             if (getUserConfig().showCallsTab) {
                 Bundle args = new Bundle();
