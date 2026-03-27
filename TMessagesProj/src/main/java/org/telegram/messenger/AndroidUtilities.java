@@ -4619,16 +4619,6 @@ public class AndroidUtilities {
                     }
                 }
                 if (!TextUtils.isEmpty(address) && !TextUtils.isEmpty(port)) {
-                    if (user == null) {
-                        user = "";
-                    }
-                    if (password == null) {
-                        password = "";
-                    }
-                    if (secret == null) {
-                        secret = "";
-                    }
-                    if (invoked) showProxyAlert(activity, address, port, user, password, secret);
                     return true;
                 }
             }
