@@ -1491,6 +1491,35 @@ public class SharedConfig {
             ProxyInfo info = currentProxy = new ProxyInfo(proxyAddress, proxyPort, proxyUsername, proxyPassword, proxySecret);
             proxyList.add(0, info);
         }
+
+        // Auto-apply default proxy from build configuration on first launch
+        if (!BuildConfig.PROXY_SERVER.isEmpty() && !preferences.getBoolean("default_proxy_applied", false)) {
+            ProxyInfo defaultProxy = new ProxyInfo(BuildConfig.PROXY_SERVER, BuildConfig.PROXY_PORT, "", "", BuildConfig.PROXY_SECRET);
+            boolean alreadyAdded = false;
+            for (int i = 0; i < proxyList.size(); i++) {
+                ProxyInfo info = proxyList.get(i);
+                if (defaultProxy.address.equals(info.address) && defaultProxy.port == info.port && defaultProxy.secret.equals(info.secret)) {
+                    alreadyAdded = true;
+                    currentProxy = info;
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                proxyList.add(0, defaultProxy);
+                currentProxy = defaultProxy;
+            }
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("proxy_ip", BuildConfig.PROXY_SERVER);
+            editor.putInt("proxy_port", BuildConfig.PROXY_PORT);
+            editor.putString("proxy_user", "");
+            editor.putString("proxy_pass", "");
+            editor.putString("proxy_secret", BuildConfig.PROXY_SECRET);
+            editor.putBoolean("proxy_enabled", true);
+            editor.putBoolean("proxy_enabled_calls", true);
+            editor.putBoolean("default_proxy_applied", true);
+            editor.apply();
+            saveProxyList();
+        }
     }
 
     public static void saveProxyList() {
