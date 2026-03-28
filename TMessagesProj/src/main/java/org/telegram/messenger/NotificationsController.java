@@ -1122,6 +1122,12 @@ public class NotificationsController extends BaseController {
                 } else {
                     isChannel = false;
                 }
+                if (DialogObject.isUserDialog(dialogId)) {
+                    TLRPC.User user = getMessagesController().getUser(dialogId);
+                    if (!UserObject.isBot(user)) {
+                        continue;
+                    }
+                }
                 long did;
                 if (messageObject.isStoryReactionPush) {
                     did = messageObject.getDialogId();
