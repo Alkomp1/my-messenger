@@ -13194,10 +13194,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 final boolean proxyVisible = proxyEnabled && !TextUtils.isEmpty(proxyAddress)
                         || getMessagesController().blockedCountry && !SharedConfig.proxyList.isEmpty();
 
-                if (proxyVisible) {
-                    io.addGap();
-                    io.add(proxyMenuSubItem);
-                }
             }
         } else {
             io.add(R.drawable.msg_customize, getString(R.string.ArchiveSettings), () -> presentFragment(new ArchiveSettingsActivity()));

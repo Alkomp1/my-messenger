@@ -7993,22 +7993,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             titleId = R.string.Connecting;
         }
         if (currentConnectionState == ConnectionsManager.ConnectionStateConnecting || currentConnectionState == ConnectionsManager.ConnectionStateConnectingToProxy) {
-            action = () -> {
-                BaseFragment lastFragment = null;
-                if (AndroidUtilities.isTablet()) {
-                    if (!layerFragmentsStack.isEmpty()) {
-                        lastFragment = layerFragmentsStack.get(layerFragmentsStack.size() - 1);
-                    }
-                } else {
-                    if (!mainFragmentsStack.isEmpty()) {
-                        lastFragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
-                    }
-                }
-                if (lastFragment instanceof ProxyListActivity || lastFragment instanceof ProxySettingsActivity) {
-                    return;
-                }
-                presentFragment(new ProxyListActivity());
-            };
+            // proxy entry point removed
         }
         actionBarLayout.setTitleOverlayText(title, titleId, action);
     }
