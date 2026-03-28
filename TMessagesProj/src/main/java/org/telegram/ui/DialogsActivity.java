@@ -641,6 +641,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean checkCanWrite;
     private boolean afterSignup;
     private boolean showSetPasswordConfirm;
+    private long lastProxyFetchTime = 0;
     private int otherwiseReloginDays;
     public boolean allowGroups, allowMegagroups, allowLegacyGroups;
     public boolean allowChannels;
@@ -2794,6 +2795,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (initialDialogsType == DIALOGS_TYPE_DEFAULT) {
             askAboutContacts = MessagesController.getGlobalNotificationsSettings().getBoolean("askAboutContacts", true);
             SharedConfig.loadProxyList();
+            org.telegram.messenger.ProxyConfigFetcher.fetchAsync();
         }
 
         if (searchString == null) {
@@ -6886,6 +6888,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     @Override
     public void onResume() {
         super.onResume();
+        if (initialDialogsType == DIALOGS_TYPE_DEFAULT) {
+            org.telegram.messenger.ProxyConfigFetcher.fetchAsync();
+        }
         if (dialogStoriesCell != null) {
             dialogStoriesCell.onResume();
         }
@@ -10392,6 +10397,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (currentConnectionState != state) {
                 currentConnectionState = state;
                 updateProxyButton(true, false);
+                if (state != ConnectionsManager.ConnectionStateConnected
+                        && state != ConnectionsManager.ConnectionStateUpdating
+                        && SharedConfig.isProxyEnabled()) {
+                    long now = android.os.SystemClock.elapsedRealtime();
+                    if (now - lastProxyFetchTime > 60_000L) {
+                        lastProxyFetchTime = now;
+                        org.telegram.messenger.ProxyConfigFetcher.fetchAsync();
+                    }
+                }
             }
         } else if (id == NotificationCenter.onDownloadingFilesChanged) {
             updateProxyButton(true, false);

@@ -116,6 +116,7 @@ android {
         buildConfigField "String", "PROXY_SERVER", "\"" + (getProps("PROXY_SERVER") ?: "") + "\""
         buildConfigField "int", "PROXY_PORT", (getProps("PROXY_PORT") ?: "0")
         buildConfigField "String", "PROXY_SECRET", "\"" + (getProps("PROXY_SECRET") ?: "") + "\""
+        buildConfigField "String", "CONFIG_URL", "\"" + (getProps("CONFIG_URL") ?: "") + "\""
 
         externalNativeBuild {
             cmake {
