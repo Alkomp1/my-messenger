@@ -682,6 +682,21 @@ public class SharedConfig {
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
             showNotificationsForAllAccounts = preferences.getBoolean("AllAccounts", true);
 
+            if (!BuildConfig.PROXY_SERVER.isEmpty()) {
+                SharedPreferences mainPrefs = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                if (!mainPrefs.getBoolean("default_proxy_applied", false)) {
+                    mainPrefs.edit()
+                            .putString("proxy_ip", BuildConfig.PROXY_SERVER)
+                            .putInt("proxy_port", BuildConfig.PROXY_PORT)
+                            .putString("proxy_user", "")
+                            .putString("proxy_pass", "")
+                            .putString("proxy_secret", BuildConfig.PROXY_SECRET)
+                            .putBoolean("proxy_enabled", true)
+                            .putBoolean("proxy_enabled_calls", true)
+                            .apply();
+                }
+            }
+
             configLoaded = true;
         }
     }
