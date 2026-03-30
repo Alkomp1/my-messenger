@@ -1621,9 +1621,17 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                     if (DialogObject.isUserDialog(dialogId)) {
                         TLRPC.User user = messagesController.getUser(dialogId);
                         if (!UserObject.isBot(user)) continue;
+                        if (org.telegram.messenger.WhitelistManager.isActive()) {
+                            String uname = user != null ? user.username : null;
+                            if (!org.telegram.messenger.WhitelistManager.isBotAllowed(uname)) continue;
+                        }
                     } else if (DialogObject.isChatDialog(dialogId)) {
                         TLRPC.Chat chat = messagesController.getChat(-dialogId);
                         if (!ChatObject.isChannelAndNotMegaGroup(chat)) continue;
+                        if (org.telegram.messenger.WhitelistManager.isActive()) {
+                            String uname = chat != null ? chat.username : null;
+                            if (!org.telegram.messenger.WhitelistManager.isChannelAllowed(uname)) continue;
+                        }
                     }
                 }
                 if (dialogsType == DialogsActivity.DIALOGS_TYPE_ADD_USERS_TO && dialog instanceof DialogsActivity.DialogsHeader) {

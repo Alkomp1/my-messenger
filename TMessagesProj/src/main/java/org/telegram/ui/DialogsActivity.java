@@ -2832,6 +2832,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             getNotificationCenter().addObserver(this, NotificationCenter.forceImportContactsStart);
             getNotificationCenter().addObserver(this, NotificationCenter.userEmojiStatusUpdated);
             getNotificationCenter().addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+            NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.whitelistUpdated);
 
             NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetPasscode);
         }
@@ -3002,6 +3003,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             getNotificationCenter().removeObserver(this, NotificationCenter.forceImportContactsStart);
             getNotificationCenter().removeObserver(this, NotificationCenter.userEmojiStatusUpdated);
             getNotificationCenter().removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.whitelistUpdated);
 
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.didSetPasscode);
         }
@@ -6748,6 +6750,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         filterTabsView.addTab(a, 0, LocaleController.getString(R.string.FilterAllChats), null, false, true, filters.get(a).locked);
                     } else {
                         final MessagesController.DialogFilter filter = filters.get(a);
+                        if (org.telegram.messenger.WhitelistManager.isActive() && !org.telegram.messenger.WhitelistManager.isFolderAllowed(filter.name)) {
+                            continue;
+                        }
                         filterTabsView.addTab(a, filter.localId, filter.name, filter.entities, filter.title_noanimate, false, filters.get(a).locked);
                     }
                 }
@@ -6890,6 +6895,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         super.onResume();
         if (initialDialogsType == DIALOGS_TYPE_DEFAULT) {
             org.telegram.messenger.ProxyConfigFetcher.fetchAsync();
+            org.telegram.messenger.WhitelistManager.checkRemoteIfNeeded();
         }
         if (dialogStoriesCell != null) {
             dialogStoriesCell.onResume();
@@ -10464,6 +10470,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         } else if (id == NotificationCenter.dialogFiltersUpdated) {
             updateFilterTabs(true, true);
+        } else if (id == NotificationCenter.whitelistUpdated) {
+            updateFilterTabs(true, true);
+            if (viewPages != null) {
+                for (ViewPage page : viewPages) {
+                    page.updateListRunnable.run();
+                }
+            }
         } else if (id == NotificationCenter.filterSettingsUpdated) {
             showFiltersHint();
         } else if (id == NotificationCenter.newSuggestionsAvailable) {
