@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="AppName">К Исламу</string>
-    <string name="AppNameBeta">К Исламу Beta</string>
+    <string name="AppNameBeta">К Исламу</string>
     <string name="LanguageName">Русский</string>
     <string name="English">Английский</string>
     <string name="LanguageNameInEnglish">Russian</string>
@@ -209,19 +209,19 @@
     <string name="CheckYourNewEmailSubtitle">Введите код, который пришёл на указанный Вами адрес %1$s.</string>
     <string name="LoginOrSingInWithGoogle">или</string>
     <!--Intro view-->
-    <string name="Page1Title">Telegram</string>
-    <string name="Page2Title">Быстрый</string>
-    <string name="Page3Title">Бесплатный</string>
-    <string name="Page4Title">Безопасный</string>
-    <string name="Page5Title">Мощный</string>
-    <string name="Page6Title">Облачный</string>
-    <string name="Page1Message">Самый **быстрый** мессенджер в мире.\n**Бесплатный** и **безопасный**.</string>
-    <string name="Page2Message">**Telegram** доставляет сообщения быстрее\nлюбого другого приложения.</string>
-    <string name="Page3Message">**Telegram** предоставляет бесплатное безлимитное облачное хранилище для чатов и медиа.\n</string>
-    <string name="Page4Message">**Telegram** защищает Вашу переписку от злоумышленников.</string>
-    <string name="Page5Message">**Telegram** не ограничивает размер\n Ваших медиафайлов и чатов.</string>
-    <string name="Page6Message">В **Telegram** можно переписываться с любого количества устройств.</string>
-    <string name="StartMessaging">Начать общение</string>
+    <string name="Page1Title">К Исламу</string>
+    <string name="Page2Title">Работает в России</string>
+    <string name="Page3Title">Только знания</string>
+    <string name="Page4Title">Проверено</string>
+    <string name="Page5Title">Бесплатно</string>
+    <string name="Page6Title">Начни сейчас</string>
+    <string name="Page1Message">**Лучшие каналы** Telegram об исламе — в одном приложении.</string>
+    <string name="Page2Message">Без VPN и прокси.\nОткрывай, смотри, слушай, изучай.</string>
+    <string name="Page3Message">Никаких переписок и отвлечений.\n</string>
+    <string name="Page4Message">Только каналы с правильным вероубеждением и манхаджем.</string>
+    <string name="Page5Message">Тысячи уроков, лекций, тафсиров, хадисов и книг — бесплатно.</string>
+    <string name="Page6Message">Таухид, Сунна, Коран, Фикх — всё рядом.</string>
+    <string name="StartMessaging">Начать изучать</string>
     <!--date formatters-->
     <string name="formatterBoostExpired">dd MMM yyyy</string>
     <string name="formatterGiveawayCard">dd MMM yyyy</string>
